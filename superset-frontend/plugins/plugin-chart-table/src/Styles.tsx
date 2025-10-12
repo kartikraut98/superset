@@ -93,18 +93,84 @@ export default styled.div`
       height: auto;
     }
 
+    /* Fix pagination container - center it and add proper spacing */
     .dt-pagination {
-      text-align: right;
-      /* use padding instead of margin so clientHeight can capture it */
-      padding-top: 0.5em;
+      text-align: center;
+      padding: ${theme.gridUnit * 2}px 0;
+      margin: ${theme.gridUnit}px 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
     }
+
     .dt-pagination .pagination {
       margin: 0;
+      display: inline-block;
+      padding: 0;
+    }
+
+    /* Remove black outlines and match bottom pagination styling */
+    .dt-pagination .pagination > li {
+      display: inline;
+      margin: 0 4px;
+    }
+
+    .dt-pagination .pagination > li > a,
+    .dt-pagination .pagination > li > span {
+      padding: 8px 12px;
+      text-decoration: none;
+      background-color: ${theme.colors.grayscale.light5};
+      border-radius: ${theme.borderRadius}px;
+      color: ${theme.colors.grayscale.dark1};
+      border: none; /* Remove the black outline */
+      display: inline-block;
+      
+      &:hover,
+      &:focus {
+        z-index: 2;
+        color: ${theme.colors.grayscale.dark1};
+        background-color: ${theme.colors.grayscale.light3};
+        text-decoration: none;
+      }
+    }
+
+    .dt-pagination .pagination > li.active > a,
+    .dt-pagination .pagination > li.active > span {
+      z-index: 3;
+      color: ${theme.colors.grayscale.light5};
+      cursor: default;
+      background-color: ${theme.colors.primary.base};
+      border: none; /* Remove border for active state */
+      
+      &:focus {
+        outline: none;
+      }
+    }
+
+    .dt-pagination .pagination > li.disabled > a,
+    .dt-pagination .pagination > li.disabled > span {
+      background-color: transparent;
+      cursor: default;
+      border: none;
+      
+      &:focus {
+        outline: none;
+      }
+    }
+
+    .pagination > li > span.dt-pagination-ellipsis {
+      padding: 8px 12px;
+      background-color: ${theme.colors.grayscale.light5};
+      border-radius: ${theme.borderRadius}px;
+      color: ${theme.colors.grayscale.base};
+      border: none; /* Remove border */
+      margin: 0 4px;
     }
 
     .pagination > li > span.dt-pagination-ellipsis:focus,
     .pagination > li > span.dt-pagination-ellipsis:hover {
-      background: ${theme.colors.grayscale.light5};
+      background: ${theme.colors.grayscale.light3};
+      color: ${theme.colors.grayscale.dark1};
     }
 
     .dt-no-results {

@@ -17,6 +17,7 @@
  * under the License.
  */
 import { CSSProperties, forwardRef, memo, Ref } from 'react';
+import classNames from 'classnames';
 
 export interface PaginationProps {
   pageCount: number; // number of pages
@@ -88,9 +89,31 @@ export default memo(
       currentPage,
       maxPageItemCount,
     );
+
+    const handlePrevPage = () => onPageChange(Math.max(0, currentPage - 1));
+    const handleNextPage = () => onPageChange(Math.min(pageCount - 1, currentPage + 1));
+
+    const isFirstPage = currentPage === 0;
+    const isLastPage = currentPage === pageCount - 1;
+
     return (
       <div ref={ref} className="dt-pagination" style={style}>
         <ul className="pagination pagination-sm">
+          {/* Previous page arrow - matching bottom pagination */}
+          <li className={classNames({ disabled: isFirstPage })}>
+            <span
+              role="button"
+              tabIndex={isFirstPage ? -1 : 0}
+              onClick={e => {
+                e.preventDefault();
+                if (!isFirstPage) handlePrevPage();
+              }}
+            >
+              «
+            </span>
+          </li>
+
+          {/* Page numbers */}
           {pageItems.map(item =>
             typeof item === 'number' ? (
               // actual page number
@@ -115,6 +138,20 @@ export default memo(
               </li>
             ),
           )}
+
+          {/* Next page arrow - matching bottom pagination */}
+          <li className={classNames({ disabled: isLastPage })}>
+            <span
+              role="button"
+              tabIndex={isLastPage ? -1 : 0}
+              onClick={e => {
+                e.preventDefault();
+                if (!isLastPage) handleNextPage();
+              }}
+            >
+              »
+            </span>
+          </li>
         </ul>
       </div>
     );
